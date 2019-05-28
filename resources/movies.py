@@ -38,19 +38,57 @@ class MovieList(Resource):
 		movie = models.Movie.create(**args)
 		print(movie, "this is the movie")
 		return (movie, 201)
-		
+	def movie_or_404(movie_id):
+	    try:
+	        movie = models.Movie.get(models.Movie.id==movie_id)
+	    except models.Movie.DoesNotExist:
+	        abort(404)
+	    else:
+	        return movie
 
 
 
 class Movie(Resource):
-	def get(self, id):
-		return jsonify({'title': 'Leon the Professional'})
+	def movie_or_404(movie_id):
+	    try:
+	        movie = models.Movie.get(models.Movie.id==movie_id)
+	    except models.Movie.DoesNotExist:
+	        abort(404)
+	    else:
+	        return movie
 
+	def __init__(self):
+		self.reqparse = reqparse.RequestParser()
+		self.reqparse.add_argument(
+			'title',
+			required=False,
+			help='No movie title provided',
+			location=['form', 'json']
+		)
+		self.reqparse = reqparse.RequestParser()
+		self.reqparse.add_argument(
+			'description',
+			required=False,
+			help='No description provided',
+			location=['form', 'json']
+		)
+		super().__init__()
+
+	@marshal_with(movie_fields)
+	def get(self, id):
+		return movie_or_404(id)
+
+	@marshal_with(movie_fields)
 	def put(self, id):
-		return jsonify({'title': 'Leon the Professional'})
+		args = self.reqparse.parse_args()
+		query = models.Movie.update(**args).where(models.Movie.id==id)
+		query.execute()
+		return (models.Movie.get(models.Movie.id==id), 200)
 
 	def delete(self, id):
-		return jsonify({'title': 'Leon the Professional'})
+		query = models.Movie.delete().where(models.Movie.id==id)
+		query.execute()
+		return 'movie'
 
 movies_api = Blueprint('resources.movies', __name__)
 api = Api(movies_api)

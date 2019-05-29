@@ -20,7 +20,7 @@ def load_user(userid):
 		except models.DoesNotExist:
 			return None
 
-CORS(movies_api, origins=["http://localhost:3000"], supports_credentials=True)
+CORS(movies_api, origins= ["http://localhost:3000"], supports_credentials=True)
 CORS(users_api, origins= ["http://localhost:3000"], supports_credentials=True)
 app.register_blueprint(movies_api, url_prefix='/api/v1')
 app.register_blueprint(users_api, url_prefix='/api/v1')

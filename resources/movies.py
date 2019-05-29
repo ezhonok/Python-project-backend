@@ -28,14 +28,17 @@ class MovieList(Resource):
 			location=['form', 'json']
 		)
 		super().__init__()
-	def get(self):
-		models.Movie.select()
-		all_movies = models.Movie.select()
-		print(all_movies, "<--- the DB query for all_movies!")
-		new_movies = []
 
-		for movie in all_movies:
-			new_movies.append(marshal(movie, movie_fields))
+	def get(self):
+		# models.Movie.select()
+		# all_movies = models.Movie.select()
+		# print(all_movies, "<--- the DB query for all_movies!")
+		# new_movies = []
+
+
+		# for movie in all_movies:
+		# 	new_movies.append(marshal(movie, movie_fields))
+		new_movies = [marshal(movie, movie_fields) for movie in models.Movie.select()]
 		return new_movies
 
 
@@ -61,7 +64,6 @@ class Movie(Resource):
 			help='No movie title provided',
 			location=['form', 'json']
 		)
-		self.reqparse = reqparse.RequestParser()
 		self.reqparse.add_argument(
 			'description',
 			required=False,
@@ -77,6 +79,8 @@ class Movie(Resource):
 	@marshal_with(movie_fields)
 	def put(self, id):
 		args = self.reqparse.parse_args()
+		print(self.reqparse, '<=== self.reqparse')
+		print(args)
 		query = models.Movie.update(**args).where(models.Movie.id==id)
 		query.execute()
 		return (models.Movie.get(models.Movie.id==id), 200)
@@ -84,7 +88,7 @@ class Movie(Resource):
 	def delete(self, id):
 		query = models.Movie.delete().where(models.Movie.id==id)
 		query.execute()
-		return 'movie'
+		return 'movie deleted amigo!'
 
 movies_api = Blueprint('resources.movies', __name__)
 api = Api(movies_api)
@@ -93,6 +97,7 @@ api.add_resource(
 	'/movies',
 	endpoint='movies'
 )
+
 api.add_resource(
 	Movie,
 	'/movies/<int:id>',

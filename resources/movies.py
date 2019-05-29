@@ -38,14 +38,8 @@ class MovieList(Resource):
 		movie = models.Movie.create(**args)
 		print(movie, "this is the movie")
 		return (movie, 201)
-		#return jsonify({'movie:' [{'title': 1}]})
-	# def movie_or_404(movie_id):
-	#     try:
-	#         movie = models.Movie.get(models.Movie.id==movie_id)
-	#     except models.Movie.DoesNotExist:
-	#         abort(404)
-	#     else:
-	#         return movie
+		return jsonify({'movie:' [{'title': 1}]})
+
 
 
 

@@ -1,41 +1,10 @@
-# import datetime
-
-# from peewee import *
-
-# DATABASE = SqliteDatabase('movies.sqlite')
-
-# class User(Model):
-# 	username = CharField()
-# 	password = CharField()
-# 	created_at = DateTimeField(default=datetime.datetime.now)
-
-# 	class Meta:
-# 		database = DATABASE
-
-# class Movie(Model):
-#     title = CharField()
-#     description = TextField()
-#     created_at = DateTimeField(default=datetime.datetime.now)
-
-#     class Meta:
-#         database = DATABASE
-
-# def initialize():
-#     DATABASE.connect()
-#     DATABASE.create_tables([Movie], safe=True)
-#     DATABASE.close()
-
-
-
-
-
 import datetime
 
 from peewee import *
 from flask_bcrypt import generate_password_hash
 from flask_login import UserMixin
 
-DATABASE = PostgresqlDatabase('movies', user='lanagreg', password='password')
+DATABASE = PostgresqlDatabase('movies', user='greglana', password='password')
 
 class User(UserMixin, Model):
     username = CharField(unique=True)
@@ -61,8 +30,6 @@ class User(UserMixin, Model):
             raise Exception("user with this email already exists")
 
 
-
-
 class Movie(Model):
     title = CharField()
     description = TextField()
@@ -73,17 +40,7 @@ class Movie(Model):
         database = DATABASE
 
 
-
-class User(Model):
-    username = CharField()
-    password = CharField()
-    created_at = DateTimeField(default=datetime.datetime.now)
-
-    class Meta:
-        database = DATABASE
-
-
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([Movie], safe=True)
+    DATABASE.create_tables([User, Movie], safe=True)
     DATABASE.close()

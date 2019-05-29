@@ -35,15 +35,15 @@ if __name__ == '__main__':
     models.initialize()
     app.run(debug=DEBUG, port=PORT)
 
-@app.before_request
-def before_request():
-    """Connect to the database before each request."""
-    g.db = models.DATABASE
-    g.db.connect()
+# @app.before_request
+# def before_request():
+#     """Connect to the database before each request."""
+#     g.db = models.DATABASE
+#     g.db.connect()
 
 
-@app.after_request
-def after_request(response):
-    """Close the database connection after each request."""
-    g.db.close()
-    return response
+# @app.after_request
+# def after_request(response):
+#     """Close the database connection after each request."""
+#     g.db.close()
+#     return response

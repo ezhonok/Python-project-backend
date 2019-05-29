@@ -30,8 +30,6 @@ class User(UserMixin, Model):
             raise Exception("user with this email already exists")
 
 
-
-
 class Movie(Model):
     title = CharField()
     description = TextField()

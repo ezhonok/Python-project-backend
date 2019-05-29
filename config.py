@@ -1,0 +1,3 @@
+DEBUG = True
+PORT = 8000
+SECRET_KEY = '945nfsSD124DSGn04bdn42en13nsndq3gp'

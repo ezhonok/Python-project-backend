@@ -29,7 +29,15 @@ class MovieList(Resource):
 		)
 		super().__init__()
 	def get(self):
-		return jsonify({'movies': [{'title': 'Leon the Professional'}, {'description': 'He cleaned'}]})
+		models.Movie.select()
+		all_movies = models.Movie.select()
+		print(all_movies, "<--- the DB query for all_movies!")
+		new_movies = []
+
+		for movie in all_movies:
+			new_movies.append(marshal(movie, movie_fields))
+		return new_movies
+
 
 	@marshal_with(movie_fields)
 	def post(self):

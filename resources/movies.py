@@ -43,7 +43,7 @@ class MovieList(Resource):
 	def post(self):
 		args = self.reqparse.parse_args()
 		print(args, 'hitting the post route boiiii')
-		movie = models.Movie.create(**args)
+		movie = models.Movie.create(created_by=1, **args)
 		print(movie, "this is the movie")
 		return (movie, 201)
 

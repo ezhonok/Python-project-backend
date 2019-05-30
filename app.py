@@ -4,7 +4,7 @@ import models
 from resources.users import users_api
 from resources.movies import movies_api
 from flask_cors import CORS
-from flask_login import LoginManager
+from flask_login import (LoginManager, current_user)
 import config
 login_manager = LoginManager()
 
@@ -42,6 +42,8 @@ def before_request():
 	"""Connect to the database before each request."""
 	g.db = models.DATABASE
 	g.db.connect()
+	g.user = current_user
+	# print(g.db, "<--- g.db")
 
 @app.after_request
 def after_request(response):

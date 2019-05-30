@@ -38,6 +38,8 @@ class MovieList(Resource):
 
 		# for movie in all_movies:
 		# 	new_movies.append(marshal(movie, movie_fields))
+		# g.user._get_current_object()
+		# print(g.user._get_current_object())
 		new_movies = [marshal(movie, movie_fields) for movie in models.Movie.select()]
 		return new_movies
 
@@ -45,7 +47,8 @@ class MovieList(Resource):
 	@marshal_with(movie_fields)
 	def post(self):
 		args = self.reqparse.parse_args()
-		print(args, 'hitting the post route boiiii')
+		print(args, 'hitting the post route')
+		# print(g.user._get_current_object())
 		movie = models.Movie.create(created_by=1, **args)
 		print(movie, "this is the movie")
 		return (movie, 201)
@@ -74,7 +77,7 @@ class Movie(Resource):
 
 	@marshal_with(movie_fields)
 	def get(self, id):
-		return movie_or_404(id)
+		return (movie, 201)
 
 	@marshal_with(movie_fields)
 	def put(self, id):
@@ -94,13 +97,11 @@ movies_api = Blueprint('resources.movies', __name__)
 api = Api(movies_api)
 api.add_resource(
 	MovieList,
-	'/movies',
-	endpoint='movies'
+	'/movies'
 )
 
 api.add_resource(
 	Movie,
-	'/movies/<int:id>',
-	endpoint='movie'
+	'/movies/<int:id>'
 )
 

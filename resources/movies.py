@@ -75,9 +75,8 @@ class Movie(Resource):
 	@marshal_with(movie_fields)
 	def put(self, id):
 		args = self.reqparse.parse_args()
-		print(self.reqparse, '<=== self.reqparse')
-		print(args)
 		query = models.Movie.update(**args).where(models.Movie.id==id)
+		print(query)
 		query.execute()
 		return (models.Movie.get(models.Movie.id==id), 200)
 

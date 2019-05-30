@@ -44,13 +44,11 @@ class UserList(Resource):
 
 	def post(self):
 		args = self.reqparse.parse_args()
-		# checks to ensure that the double verification of the passwords provided is true
 		if args['password'] == args['verify_password']:
 			print(args, ' this is args')
 			print(current_user, "this is current_user")
 			g.user = current_user
 			print(g.user, "this is g.user")
-			# print(g.user, "<--- g.user", current_user, "<--- current_user")
 			user = models.User.create_user(**args)
 			login_user(user)
 			return marshal(user, user_fields), 201

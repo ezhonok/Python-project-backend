@@ -1,5 +1,6 @@
-from flask import jsonify, Blueprint, abort
+from flask import jsonify, Blueprint, abort, g
 from flask_restful import (Resource, Api, reqparse, fields, marshal, marshal_with, url_for)
+from flask_login import (LoginManager, current_user)
 
 import models
 
@@ -46,9 +47,11 @@ class MovieList(Resource):
 
 	@marshal_with(movie_fields)
 	def post(self):
+		#console.log(g.user._get_current_object(), "get _get_current_object in the post route")
 		args = self.reqparse.parse_args()
+		g.user = current_user
 		print(args, 'hitting the post route')
-		# print(g.user._get_current_object())
+		print(g.user._get_current_object())
 		movie = models.Movie.create(created_by=1, **args)
 		print(movie, "this is the movie")
 		return (movie, 201)

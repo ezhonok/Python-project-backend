@@ -43,7 +43,6 @@ def before_request():
 	g.db = models.DATABASE
 	g.db.connect()
 	g.user = current_user
-	# print(g.db, "<--- g.db")
 
 @app.after_request
 def after_request(response):

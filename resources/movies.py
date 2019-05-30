@@ -31,14 +31,6 @@ class MovieList(Resource):
 		super().__init__()
 
 	def get(self):
-		# models.Movie.select()
-		# all_movies = models.Movie.select()
-		# print(all_movies, "<--- the DB query for all_movies!")
-		# new_movies = []
-
-
-		# for movie in all_movies:
-		# 	new_movies.append(marshal(movie, movie_fields))
 		# g.user._get_current_object()
 		# print(g.user._get_current_object())
 		new_movies = [marshal(movie, movie_fields) for movie in models.Movie.select()]
@@ -47,13 +39,11 @@ class MovieList(Resource):
 
 	@marshal_with(movie_fields)
 	def post(self):
-		#console.log(g.user._get_current_object(), "get _get_current_object in the post route")
 		args = self.reqparse.parse_args()
 		g.user = current_user
-		print(args, 'hitting the post route')
-		print(g.user._get_current_object())
-		movie = models.Movie.create(created_by=1, **args)
-		print(movie, "this is the movie")
+		createdMovsUserId = g.user._get_current_object()
+		movie = models.Movie.create(created_by=createdMovsUserId, **args)
+		print(movie.created_by, "<=== movie.created_by in the post route")
 		return (movie, 201)
 
 

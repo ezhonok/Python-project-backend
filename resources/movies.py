@@ -43,7 +43,8 @@ class MovieList(Resource):
 		g.user = current_user
 		createdMovsUserId = g.user._get_current_object()
 		movie = models.Movie.create(created_by=createdMovsUserId, **args)
-		print(movie.created_by, "<=== movie.created_by in the post route")
+		print(movie, "<=== movie in the post route")
+		print(movie.created_by, "<=== created_by in the post route")
 		return (movie, 201)
 
 
@@ -82,9 +83,18 @@ class Movie(Resource):
 		return (models.Movie.get(models.Movie.id==id), 200)
 
 	def delete(self, id):
-		query = models.Movie.delete().where(models.Movie.id==id)
-		query.execute()
-		return 'movie deleted amigo!'
+		g.user = current_user
+		print(g.user, "<-- g.user")
+		movieToDelete = models.Movie.get(models.Movie.id==id)
+		print(movieToDelete, "<=-=-= movieToDelete")
+		print(movieToDelete.created_by, "<---- movieToDelete.created_by")
+		if movieToDelete.created_by == g.user:
+			query = models.Movie.delete().where(models.Movie.id==id)
+			query.execute()
+			return ("creator id match")
+		else:
+			return ("creator id fail")
+
 
 movies_api = Blueprint('resources.movies', __name__)
 api = Api(movies_api)

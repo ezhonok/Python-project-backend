@@ -75,20 +75,20 @@ class Movie(Resource):
 
 	@marshal_with(movie_fields)
 	def put(self, id):
-		g.user = current_user
-		args = self.reqparse.parse_args()
-		query = models.Movie.update(**args).where(models.Movie.id==id)
-		print(query)
-		query.execute()
-		return (models.Movie.get(models.Movie.id==id), 200)
+		movie_to_edit = models.Movie.get(models.Movie.id==id)
+		if movie_to_edit.created_by == g.user:
+			args = self.reqparse.parse_args()
+			query = models.Movie.update(**args).where(models.Movie.id==id)
+			query.execute()
+			return (models.Movie.get(models.Movie.id==id))
+		else:
+			print('else route hit')
+			return ("creator id fail")
 
 	def delete(self, id):
-		g.user = current_user
-		print(g.user, "<-- g.user")
-		movieToDelete = models.Movie.get(models.Movie.id==id)
-		print(movieToDelete, "<=-=-= movieToDelete")
-		print(movieToDelete.created_by, "<---- movieToDelete.created_by")
-		if movieToDelete.created_by == g.user:
+		print(g.user, "<---g.user in the backend")
+		movie_to_delete = models.Movie.get(models.Movie.id==id)
+		if movie_to_delete.created_by == g.user:
 			query = models.Movie.delete().where(models.Movie.id==id)
 			query.execute()
 			return ("creator id match")

@@ -50,7 +50,6 @@ class UserList(Resource):
 			print(current_user, "this is current_user")
 			g.user = current_user
 			print(g.user, "this is g.user")
-			# print(g.user, "<--- g.user", current_user, "<--- current_user")
 			user = models.User.create_user(**args)
 			login_user(user)
 			return marshal(user, user_fields), 201

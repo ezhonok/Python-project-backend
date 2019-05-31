@@ -44,7 +44,6 @@ class UserList(Resource):
 
 	def post(self):
 		args = self.reqparse.parse_args()
-		# checks to ensure that the double verification of the passwords provided is true
 		if args['password'] == args['verify_password']:
 			print(args, ' this is args')
 			print(current_user, "this is current_user")
@@ -58,6 +57,7 @@ class UserList(Resource):
 				'error': 'Password and password verification don\'t match bro!'
 			}), 400)
 
+	
 
 
 
@@ -67,17 +67,7 @@ api.add_resource(
 	UserList,
 	'/users'
 )
-# # login route
-# api.add_resource(
-# 	UserList,
-# 	'/login'
-# )
 
-# # logout route
-# api.add_resource(
-# 	UserList,
-# 	'/logout'
-# )
 
 
 

@@ -1,11 +1,12 @@
-from flask import Flask, g
+from flask import Flask, g, make_response
 
 import models
 from resources.users import users_api
 from resources.movies import movies_api
 from flask_cors import CORS
-from flask_login import (LoginManager, current_user)
+from flask_login import (LoginManager, current_user, logout_user)
 import config
+import json
 login_manager = LoginManager()
 
 
@@ -21,6 +22,10 @@ def load_user(userid):
 			return None
 
 
+@app.route('/logout')
+def get():
+	logout_user()
+	return 'logout successful'
 
 
 @app.route('/')
@@ -46,7 +51,6 @@ CORS(movies_api, origins= ["http://localhost:3000"], supports_credentials=True)
 CORS(users_api, origins= ["http://localhost:3000"], supports_credentials=True)
 app.register_blueprint(movies_api, url_prefix='/api/v1')
 app.register_blueprint(users_api, url_prefix='/api/v1')
-
 
 
 

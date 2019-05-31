@@ -57,6 +57,7 @@ class UserList(Resource):
 				'error': 'Password and password verification don\'t match bro!'
 			}), 400)
 
+	
 
 
 
@@ -66,17 +67,7 @@ api.add_resource(
 	UserList,
 	'/users'
 )
-# # login route
-# api.add_resource(
-# 	UserList,
-# 	'/login'
-# )
 
-# # logout route
-# api.add_resource(
-# 	UserList,
-# 	'/logout'
-# )
 
 
 

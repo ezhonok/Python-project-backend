@@ -1,4 +1,4 @@
-#!/Users/juchini/june-bugs/ProjectPython/backend-flask-movies/.env/bin/python
+#!/Users/gregorygancarz/june-bugs/project4mini/REALproj4/Python-project-backend/.env/bin/python
 
 import sys
 import getopt

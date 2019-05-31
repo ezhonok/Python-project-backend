@@ -1,11 +1,12 @@
-from flask import Flask, g
+from flask import Flask, g, make_response
 
 import models
 from resources.users import users_api
 from resources.movies import movies_api
 from flask_cors import CORS
-from flask_login import (LoginManager, current_user)
+from flask_login import (LoginManager, current_user, logout_user)
 import config
+import json
 login_manager = LoginManager()
 
 
@@ -27,15 +28,16 @@ app.register_blueprint(users_api, url_prefix='/api/v1')
 
 
 
+@app.route('/logout')
+def get():
+	logout_user()
+	return 'logout successful'
 
 
 @app.route('/')
 def index():
 	return 'hi'
 
-if __name__ == '__main__':
-	models.initialize()
-	app.run(debug=config.DEBUG, port=config.PORT)
 
 @app.before_request
 def before_request():
@@ -50,5 +52,7 @@ def after_request(response):
 	g.db.close()
 	return response
 
-
+if __name__ == '__main__':
+	models.initialize()
+	app.run(debug=config.DEBUG, port=config.PORT)
 

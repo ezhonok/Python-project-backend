@@ -83,7 +83,7 @@ class Movie(Resource):
 			return (models.Movie.get(models.Movie.id==id))
 		else:
 			print('else route hit')
-			return ("creator id fail")
+			return 0
 
 	def delete(self, id):
 		print(g.user, "<---g.user in the backend")
